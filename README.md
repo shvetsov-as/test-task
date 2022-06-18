@@ -3,7 +3,6 @@
 ---
 
 A simple SOAP-based test project that performs operations 
-
 for managing users and their roles.
 
 ---
