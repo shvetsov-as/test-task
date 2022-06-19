@@ -1,9 +1,9 @@
-package com.example.testtask.controller;
+package com.example.testtask.webservice;
 
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller {
+public class WebService {
 
     public void test(){
         try{
