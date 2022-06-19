@@ -5,6 +5,9 @@
 A simple SOAP-based test project that performs operations 
 for managing users and their roles.
 
+- Contract first (WSDL -> Java)
+- Data storage - Docker Engine 20.10.14 + PostgreSQL 14.1
+
 ---
 
 Database scheme
