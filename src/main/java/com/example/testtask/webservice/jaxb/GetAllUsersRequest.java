@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="userLogin" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="getAllUsers" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "userLogin"
+    "getAllUsers"
 })
-@XmlRootElement(name = "deleteUserRequest")
-public class DeleteUserRequest {
+@XmlRootElement(name = "getAllUsersRequest")
+public class GetAllUsersRequest {
 
     @XmlElement(required = true)
-    protected String userLogin;
+    protected String getAllUsers;
 
     /**
-     * Gets the value of the userLogin property.
+     * Gets the value of the getAllUsers property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getUserLogin() {
-        return userLogin;
+    public String getGetAllUsers() {
+        return getAllUsers;
     }
 
     /**
-     * Sets the value of the userLogin property.
+     * Sets the value of the getAllUsers property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setUserLogin(String value) {
-        this.userLogin = value;
+    public void setGetAllUsers(String value) {
+        this.getAllUsers = value;
     }
 
 }
