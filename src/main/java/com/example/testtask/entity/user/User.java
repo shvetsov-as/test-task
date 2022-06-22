@@ -52,6 +52,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_login"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
     public Set<Role> getRoles() {
         return roles;
     }
