@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv = "http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:us = "http://localhost:8080/testtask/example/com">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <us:getAllUsersRequest>
+            <us:getAllUsers></us:getAllUsers>
+        </us:getAllUsersRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

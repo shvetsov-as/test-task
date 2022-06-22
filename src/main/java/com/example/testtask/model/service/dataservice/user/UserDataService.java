@@ -1,6 +1,8 @@
 package com.example.testtask.model.service.dataservice.user;
 
 import com.example.testtask.entity.user.User;
+import com.example.testtask.webservice.jaxb.GetAllUsersResponse;
+import com.example.testtask.webservice.jaxb.GetUserResponse;
 import com.example.testtask.webservice.jaxb.StatusResponse;
 import com.example.testtask.webservice.jaxb.UserFull;
 import com.example.testtask.webservice.jaxb.UserShort;
@@ -10,9 +12,9 @@ import java.util.List;
 
 public interface UserDataService {
 
-    UserFull findUserShort(String login);
+    GetUserResponse findUserFull(String login);
 
-    List<UserShort> findAllUsersFull();
+    GetAllUsersResponse findAllUsersShort();
 
     StatusResponse deleteByLogin(String login);
 

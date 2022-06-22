@@ -4,6 +4,8 @@ import com.example.testtask.model.service.dataservice.user.UserDataService;
 import com.example.testtask.webservice.jaxb.CreateUserRequest;
 import com.example.testtask.webservice.jaxb.GetAllUsersRequest;
 import com.example.testtask.webservice.jaxb.GetAllUsersResponse;
+import com.example.testtask.webservice.jaxb.GetUserResponse;
+import com.example.testtask.webservice.jaxb.GetUserRequest;
 import com.example.testtask.webservice.jaxb.StatusResponse;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -23,11 +25,20 @@ public class WebServiceUserEndpoint {
         this.userDataService = userDataService;
     }
 
-    public GetAllUsersResponse getAllUsersResponse(GetAllUsersRequest request) {
 
-
-        return null;
+    @PayloadRoot(namespace = "http://localhost:8080/testtask/example/com", localPart = "getAllUsersRequest")
+    @ResponsePayload
+    public GetAllUsersResponse getAllUsersResponse(@RequestPayload GetAllUsersRequest request) {
+        return userDataService.findAllUsersShort();
     }
+
+
+    @PayloadRoot(namespace = "http://localhost:8080/testtask/example/com", localPart = "getUserRequest")
+    @ResponsePayload
+    public GetUserResponse getUserResponse(@RequestPayload GetUserRequest request) {
+        return userDataService.findUserFull(request.getUserLogin());
+    }
+
 
     @PayloadRoot(namespace = "http://localhost:8080/testtask/example/com", localPart = "createUserRequest")
     @ResponsePayload
