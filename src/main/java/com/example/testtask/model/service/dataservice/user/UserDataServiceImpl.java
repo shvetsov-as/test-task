@@ -1,27 +1,32 @@
 package com.example.testtask.model.service.dataservice.user;
 
+import com.example.testtask.entity.role.Role;
 import com.example.testtask.entity.user.User;
 import com.example.testtask.entity.user.mapper.UserMapper;
+import com.example.testtask.model.service.dataservice.role.RoleDataService;
 import com.example.testtask.model.service.requestservice.RequestCheckService;
 import com.example.testtask.repo.UserRepository;
 import com.example.testtask.webservice.jaxb.GetAllUsersResponse;
 import com.example.testtask.webservice.jaxb.GetUserResponse;
 import com.example.testtask.webservice.jaxb.StatusResponse;
 import com.example.testtask.webservice.jaxb.UserFull;
-import com.example.testtask.webservice.jaxb.UserShort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDataServiceImpl implements UserDataService {
 
     private final UserRepository userRepository;
+    private final RoleDataService roleDataService;
     private final RequestCheckService requestCheckService;
     private final UserMapper userMapper;
 
-    public UserDataServiceImpl(UserRepository userRepository, RequestCheckService requestCheckService, UserMapper userMapper) {
+    public UserDataServiceImpl(UserRepository userRepository, RoleDataService roleDataService, RequestCheckService requestCheckService, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.roleDataService = roleDataService;
         this.requestCheckService = requestCheckService;
         this.userMapper = userMapper;
     }
@@ -52,11 +57,18 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
+    @Transactional
     public StatusResponse deleteByLogin(String login) {
-        return null;
+        StatusResponse responseDeleted = new StatusResponse();
+        responseDeleted.setSuccess(true);
+
+        userRepository.deleteById(login);
+
+        return responseDeleted;
     }
 
     @Override
+    @Transactional
     public StatusResponse create(UserFull userFull) {
 
         StatusResponse responseCreated = new StatusResponse();
@@ -68,7 +80,41 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
+    @Transactional
     public StatusResponse updateByLogin(String login, UserFull userFull) {
-        return null;
+
+        StatusResponse responseUpdated = new StatusResponse();
+        responseUpdated.setSuccess(true);
+
+        User user = userRepository.findById(login).get();
+
+        if (!userFull.getRoles().isEmpty()) {
+            Set<Role> rolesSet = user.getRoles();
+            for (Role r : rolesSet){
+                roleDataService.deleteRoleById(r.getRoleId());
+            }
+            user.setRoles(userFull.getRoles().stream().map(Role::new).collect(Collectors.toSet()));
+        }
+
+        if (!userFull.getUserLogin().equals("") && !userFull.getUserLogin().equals(user.getUserLogin())) {
+            User userToUpdatePK = new User(
+                    userFull.getUserLogin(),
+                    user.getUserName(),
+                    user.getUserPassword(),
+                    user.getRoles()
+            );
+            user = userRepository.save(userToUpdatePK);
+            userRepository.deleteById(login);
+        }
+
+        if (!userFull.getUserName().equals("")) {
+            user.setUserName(userFull.getUserName());
+        }
+
+        if (!userFull.getUserPassword().equals("")) {
+            user.setUserPassword(userFull.getUserPassword());
+        }
+
+        return responseUpdated;
     }
 }
