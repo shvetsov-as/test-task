@@ -3,6 +3,7 @@ package com.example.testtask.entity.role;
 import com.example.testtask.entity.user.User;
 import org.hibernate.Hibernate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,7 +55,7 @@ public class Role {
         this.users = users;
     }
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Set<User> users = new LinkedHashSet<>();
     public Set<User> getUsers() {
         return users;
