@@ -7,7 +7,8 @@ for managing users and their roles.
 
 - Contract first (WSDL -> Java)
 - Data storage - Docker Engine 20.10.14 + PostgreSQL 14.1
-- Added [Query].xml files in dir [ src/main/resources ] for testing
+- Added [ *QUERY NAME* ].xml files in dir [ src/main/resources ] for testing
+- Web Service location example [ http://localhost:8080/api/v1/soapUserWS ]
 
 ---
 
