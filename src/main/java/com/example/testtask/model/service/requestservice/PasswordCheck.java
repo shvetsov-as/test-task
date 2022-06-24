@@ -23,7 +23,7 @@ public class PasswordCheck {
         flagDigit = false;
     }
 
-    public List<String> validate (String password){
+    public List<String> validate(String password) {
 
         List<String> errorList = new ArrayList<>();
 

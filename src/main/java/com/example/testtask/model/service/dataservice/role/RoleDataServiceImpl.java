@@ -4,7 +4,7 @@ import com.example.testtask.repo.RoleRepository;
 import org.springframework.stereotype.Service;
 
 @Service("roleDataServiceImpl")
-public class RoleDataServiceImpl implements RoleDataService{
+public class RoleDataServiceImpl implements RoleDataService {
 
     private final RoleRepository roleRepository;
 
