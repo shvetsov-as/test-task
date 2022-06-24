@@ -27,4 +27,13 @@ class TestTaskApplicationTests {
         System.out.println("******* Context loaded *******");
     }
 
+//    static {
+//        Launcher launcher = LauncherFactory.create();
+//        LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder
+//                .request()
+//                .selectors(DiscoverySelectors.selectPackage("com.example.testtask"))
+//                .build();
+//        launcher.execute(request);
+//    }
+
 }

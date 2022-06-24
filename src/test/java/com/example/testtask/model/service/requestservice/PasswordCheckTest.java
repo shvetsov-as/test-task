@@ -1,5 +1,6 @@
 package com.example.testtask.model.service.requestservice;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,10 +9,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PasswordCheckTest {
 
+    private PasswordCheck passwordCheck;
+
+    @BeforeEach
+    public void setup() {
+        //given
+        passwordCheck = new PasswordCheck();
+    }
+
     @Test
     void shouldCheckThatPasswordCorrect() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("Abc123");
@@ -22,8 +29,6 @@ class PasswordCheckTest {
 
     @Test
     void shouldCheckThatPasswordToShort() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("Ab");
@@ -34,8 +39,6 @@ class PasswordCheckTest {
 
     @Test
     void shouldCheckThatPasswordNotEmpty() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("");
@@ -46,8 +49,6 @@ class PasswordCheckTest {
 
     @Test
     void shouldCheckThatPasswordNotMatchRequirementsInUppercase() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("abc1");
@@ -61,8 +62,6 @@ class PasswordCheckTest {
 
     @Test
     void shouldCheckThatPasswordNotMatchRequirementsInLowercase() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("ABC1");
@@ -76,8 +75,6 @@ class PasswordCheckTest {
 
     @Test
     void shouldCheckThatPasswordNotMatchRequirementsInDigit() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("ABC");
@@ -91,8 +88,6 @@ class PasswordCheckTest {
 
     @Test
     void shouldCheckThatPasswordContainWhitespaces() {
-        //given
-        PasswordCheck passwordCheck = new PasswordCheck();
 
         //when
         List<String> expectedList = passwordCheck.validate("Ab c1");

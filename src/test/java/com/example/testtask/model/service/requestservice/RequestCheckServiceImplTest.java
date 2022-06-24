@@ -11,16 +11,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class RequestCheckServiceImplTest {
 
+    private RequestCheckServiceImpl requestCheckService;
+
     @BeforeEach
-    void init() {
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
+    public void setup() {
+        //given
+        requestCheckService = new RequestCheckServiceImpl();
     }
 
     @Test
     void shouldCheckThatUserNameIsPresent() {
-
-        //given
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
 
         //when
         List<String> expectedList = requestCheckService.userNameCheck("UserName");
@@ -33,9 +33,6 @@ class RequestCheckServiceImplTest {
     @Test
     void shouldCheckThatUserNameIsEmpty() {
 
-        //given
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
-
         //when
         List<String> expectedList = requestCheckService.userNameCheck("");
 
@@ -47,9 +44,6 @@ class RequestCheckServiceImplTest {
     @Test
     void shouldCheckThatUserLoginIsPresent() {
 
-        //given
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
-
         //when
         List<String> expectedList = requestCheckService.userLoginCheck("UserLogin");
 
@@ -59,9 +53,6 @@ class RequestCheckServiceImplTest {
 
     @Test
     void shouldCheckThatUserLoginIsEmpty() {
-
-        //given
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
 
         //when
         List<String> expectedList = requestCheckService.userLoginCheck("");
@@ -74,7 +65,6 @@ class RequestCheckServiceImplTest {
     void shouldCheckThatUserRoleIsPresent() {
 
         //given
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
         List<String> givenUserRole = Arrays.asList("SimpleRoleOne", "SimpleRoleTwo");
 
         //when
@@ -88,7 +78,6 @@ class RequestCheckServiceImplTest {
     void shouldCheckThatUserRoleIsEmpty() {
 
         //given
-        RequestCheckServiceImpl requestCheckService = new RequestCheckServiceImpl();
         List<String> givenUserRole = new ArrayList<>();
 
         //when
