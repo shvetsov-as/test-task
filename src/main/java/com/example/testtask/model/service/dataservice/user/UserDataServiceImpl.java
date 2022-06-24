@@ -10,13 +10,14 @@ import com.example.testtask.webservice.jaxb.GetAllUsersResponse;
 import com.example.testtask.webservice.jaxb.GetUserResponse;
 import com.example.testtask.webservice.jaxb.StatusResponse;
 import com.example.testtask.webservice.jaxb.UserFull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
+@Service ("userDataServiceImpl")
 public class UserDataServiceImpl implements UserDataService {
 
     private final UserRepository userRepository;
@@ -24,7 +25,12 @@ public class UserDataServiceImpl implements UserDataService {
     private final RequestCheckService requestCheckService;
     private final UserMapper userMapper;
 
-    public UserDataServiceImpl(UserRepository userRepository, RoleDataService roleDataService, RequestCheckService requestCheckService, UserMapper userMapper) {
+    public UserDataServiceImpl(
+            UserRepository userRepository,
+            @Qualifier("roleDataServiceImpl") RoleDataService roleDataService,
+            @Qualifier("requestCheckServiceImpl")RequestCheckService requestCheckService,
+            UserMapper userMapper
+    ) {
         this.userRepository = userRepository;
         this.roleDataService = roleDataService;
         this.requestCheckService = requestCheckService;
