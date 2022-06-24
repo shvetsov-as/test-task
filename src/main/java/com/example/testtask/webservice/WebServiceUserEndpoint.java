@@ -9,6 +9,7 @@ import com.example.testtask.webservice.jaxb.GetUserRequest;
 import com.example.testtask.webservice.jaxb.GetUserResponse;
 import com.example.testtask.webservice.jaxb.StatusResponse;
 import com.example.testtask.webservice.jaxb.UpdateUserRequest;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -20,7 +21,7 @@ public class WebServiceUserEndpoint {
     private final UserDataService userDataService;
     private static final String URI = "http://localhost:8080/testtask/example/com";
 
-    public WebServiceUserEndpoint(UserDataService userDataService) {
+    public WebServiceUserEndpoint(@Qualifier("userDataServiceImpl")UserDataService userDataService) {
         this.userDataService = userDataService;
     }
 

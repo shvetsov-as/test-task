@@ -3,7 +3,7 @@ package com.example.testtask.model.service.dataservice.role;
 import com.example.testtask.repo.RoleRepository;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("roleDataServiceImpl")
 public class RoleDataServiceImpl implements RoleDataService{
 
     private final RoleRepository roleRepository;

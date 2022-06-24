@@ -15,5 +15,5 @@ spring:
 api:
   version: "soap/api/v1"
   namespace: "http://localhost:8080/testtask/example/com"
-  urlMappings: "/soapUserWS/*"
-  wsLocationUri: "/soapUserWS"
+  urlMappings: "/api/v1/soapUserWS/*"
+  wsLocationUri: "/api/v1/soapUserWS"
