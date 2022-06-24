@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service ("userDataServiceImpl")
+@Service("userDataServiceImpl")
 public class UserDataServiceImpl implements UserDataService {
 
     private final UserRepository userRepository;
@@ -28,7 +30,7 @@ public class UserDataServiceImpl implements UserDataService {
     public UserDataServiceImpl(
             UserRepository userRepository,
             @Qualifier("roleDataServiceImpl") RoleDataService roleDataService,
-            @Qualifier("requestCheckServiceImpl")RequestCheckService requestCheckService,
+            @Qualifier("requestCheckServiceImpl") RequestCheckService requestCheckService,
             UserMapper userMapper
     ) {
         this.userRepository = userRepository;
@@ -47,7 +49,6 @@ public class UserDataServiceImpl implements UserDataService {
                                 .orElse(new User("User with login [ " + login + " ] not found", " ", " "))
                 )
         );
-
         return userResponse;
     }
 
@@ -65,11 +66,17 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     @Transactional
     public StatusResponse deleteByLogin(String login) {
+
         StatusResponse responseDeleted = new StatusResponse();
-        responseDeleted.setSuccess(true);
+
+        if (!userRepository.existsById(login)) {
+            responseDeleted.setSuccess(false);
+            responseDeleted.getErrorList().add("User with login [ " + login + " ] not found");
+            return responseDeleted;
+        }
 
         userRepository.deleteById(login);
-
+        responseDeleted.setSuccess(true);
         return responseDeleted;
     }
 
@@ -78,11 +85,35 @@ public class UserDataServiceImpl implements UserDataService {
     public StatusResponse create(UserFull userFull) {
 
         StatusResponse responseCreated = new StatusResponse();
-        responseCreated.setSuccess(true);
+        List<String> errorList = new ArrayList<>();
+
+        if (userRepository.existsById(userFull.getUserLogin())) {
+            responseCreated.setSuccess(false);
+            responseCreated.getErrorList().add("User with login [ " + userFull.getUserLogin() + " ] is already exists");
+            return responseCreated;
+        } else {
+            errorList.addAll(fullCheck(userFull));
+        }
+
+        if (!errorList.isEmpty()) {
+            responseCreated.setSuccess(false);
+            responseCreated.getErrorList().addAll(errorList);
+            return responseCreated;
+        }
 
         userRepository.save(userMapper.userFullToUser(userFull));
-
+        responseCreated.setSuccess(true);
         return responseCreated;
+    }
+
+    private List<String> fullCheck(UserFull userFull) {
+
+        List<String> errorList = new ArrayList<>();
+        errorList.addAll(requestCheckService.userPasswordCheck(userFull.getUserPassword()));
+        errorList.addAll(requestCheckService.userLoginCheck(userFull.getUserLogin()));
+        errorList.addAll(requestCheckService.userNameCheck(userFull.getUserName()));
+        errorList.addAll(requestCheckService.userRoleCheck(userFull.getRoles()));
+        return errorList;
     }
 
     @Override
@@ -90,13 +121,30 @@ public class UserDataServiceImpl implements UserDataService {
     public StatusResponse updateByLogin(String login, UserFull userFull) {
 
         StatusResponse responseUpdated = new StatusResponse();
-        responseUpdated.setSuccess(true);
+
+        if (!userRepository.existsById(login)) {
+            responseUpdated.setSuccess(false);
+            responseUpdated.getErrorList().add("User with login [ " + login + " ] not found");
+            return responseUpdated;
+        }
 
         User user = userRepository.findById(login).get();
 
+        if (!userFull.getUserPassword().equals("")) {
+            List<String> errorList = requestCheckService.userPasswordCheck(userFull.getUserPassword());
+
+            if (errorList.isEmpty()) {
+                user.setUserPassword(userFull.getUserPassword());
+            } else {
+                responseUpdated.setSuccess(false);
+                responseUpdated.getErrorList().addAll(errorList);
+                return responseUpdated;
+            }
+        }
+
         if (!userFull.getRoles().isEmpty()) {
             Set<Role> rolesSet = user.getRoles();
-            for (Role r : rolesSet){
+            for (Role r : rolesSet) {
                 roleDataService.deleteRoleById(r.getRoleId());
             }
             user.setRoles(userFull.getRoles().stream().map(Role::new).collect(Collectors.toSet()));
@@ -117,10 +165,7 @@ public class UserDataServiceImpl implements UserDataService {
             user.setUserName(userFull.getUserName());
         }
 
-        if (!userFull.getUserPassword().equals("")) {
-            user.setUserPassword(userFull.getUserPassword());
-        }
-
+        responseUpdated.setSuccess(true);
         return responseUpdated;
     }
 }

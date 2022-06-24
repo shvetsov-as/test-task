@@ -19,7 +19,7 @@ public class RequestCheckServiceImpl implements RequestCheckService {
     public List<String> userNameCheck(String userName) {
 
         List<String> errorList = new ArrayList<>();
-        if(userName.equals("") || userName.isBlank()){
+        if (userName.equals("") || userName.isBlank()) {
             errorList.add("User Name is empty; ");
         }
         return errorList;
@@ -29,7 +29,7 @@ public class RequestCheckServiceImpl implements RequestCheckService {
     public List<String> userLoginCheck(String userLogin) {
 
         List<String> errorList = new ArrayList<>();
-        if(userLogin.equals("") || userLogin.isBlank()){
+        if (userLogin.equals("") || userLogin.isBlank()) {
             errorList.add("User Login is empty; ");
         }
         return errorList;
@@ -39,7 +39,7 @@ public class RequestCheckServiceImpl implements RequestCheckService {
     public List<String> userRoleCheck(List<String> userRole) {
 
         List<String> errorList = new ArrayList<>();
-        if(userRole.isEmpty()){
+        if (userRole.isEmpty()) {
             errorList.add("User Role is empty; ");
         }
         return errorList;

@@ -24,30 +24,30 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     private final String wsLocationUri;
 
     public WebServiceConfig(@Value("${api.namespace}") String namespaceURI,
-                            @Value("${api.urlMappings}")String uriMapping,
-                            @Value("${api.wsLocationUri}")String wsLocationUri) {
+                            @Value("${api.urlMappings}") String uriMapping,
+                            @Value("${api.wsLocationUri}") String wsLocationUri) {
         this.namespaceURI = namespaceURI;
         this.uriMapping = uriMapping;
         this.wsLocationUri = wsLocationUri;
     }
 
     @Bean
-    public ServletRegistrationBean <Servlet> messageDispatcherServlet(ApplicationContext context){
+    public ServletRegistrationBean<Servlet> messageDispatcherServlet(ApplicationContext context) {
 
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(context);
         servlet.setTransformWsdlLocations(true);
 
-        return new ServletRegistrationBean <> (servlet, uriMapping);
+        return new ServletRegistrationBean<>(servlet, uriMapping);
     }
 
     @Bean
-    public XsdSchema webserviceSchema(){
+    public XsdSchema webserviceSchema() {
         return new SimpleXsdSchema(new ClassPathResource("webservice.xsd"));
     }
 
     @Bean
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema webserviceSchema){
+    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema webserviceSchema) {
 
         DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
         definition.setSchema(webserviceSchema);
