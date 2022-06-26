@@ -1,5 +1,6 @@
 package com.example.testtask.model.service.requestservice;
 
+import com.example.testtask.webservice.jaxb.UserFull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,6 +86,53 @@ class RequestCheckServiceImplTest {
 
         //then
         assertThat(expectedList.contains("User Role is empty; ")).isTrue();
+    }
+
+    @Test
+    void shouldPerformCorrectFullCheck() {
+
+        //given
+        UserFull userFull = new UserFull();
+        List<String> givenUserRole = Arrays.asList("SimpleRoleOne", "SimpleRoleTwo");
+
+        userFull.setUserLogin("John123");
+        userFull.setUserName("John");
+        userFull.setUserPassword("John123");
+        userFull.getRoles().addAll(givenUserRole);
+
+        //when
+        List<String> expectedList = requestCheckService.fullCheck(userFull);
+
+        //then
+        assertThat(expectedList.isEmpty()).isTrue();
+    }
+
+    @Test
+    void shouldReturnAllErrorsAfterFullCheck() {
+
+        //given
+        UserFull userFull = new UserFull();
+        List<String> givenUserRole = new ArrayList<>();
+
+        userFull.setUserLogin("");
+        userFull.setUserName("");
+        userFull.setUserPassword("a");
+        userFull.getRoles().addAll(givenUserRole);
+
+        //when
+        List<String> expectedList = requestCheckService.fullCheck(userFull);
+        List<String> errorList = Arrays.asList(
+                "User Name is empty; ",
+                "User Login is empty; ",
+                "User Role is empty; ",
+                "Password must contain at least three characters [ 1Ab ]; ",
+                "Password does not match requirements." +
+                        " Must contain at least three characters:" +
+                        " *in uppercase, *in lowercase, *digit [ 1Ab ]; "
+        );
+
+        //then
+        assertThat(expectedList.containsAll(errorList)).isTrue();
     }
 }
 

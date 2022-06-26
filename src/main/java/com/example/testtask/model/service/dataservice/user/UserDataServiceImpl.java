@@ -92,7 +92,7 @@ public class UserDataServiceImpl implements UserDataService {
             responseCreated.getErrorList().add("User with login [ " + userFull.getUserLogin() + " ] is already exists");
             return responseCreated;
         } else {
-            errorList.addAll(fullCheck(userFull));
+            errorList.addAll(requestCheckService.fullCheck(userFull));
         }
 
         if (!errorList.isEmpty()) {
@@ -104,16 +104,6 @@ public class UserDataServiceImpl implements UserDataService {
         userRepository.save(userMapper.userFullToUser(userFull));
         responseCreated.setSuccess(true);
         return responseCreated;
-    }
-
-    private List<String> fullCheck(UserFull userFull) {
-
-        List<String> errorList = new ArrayList<>();
-        errorList.addAll(requestCheckService.userPasswordCheck(userFull.getUserPassword()));
-        errorList.addAll(requestCheckService.userLoginCheck(userFull.getUserLogin()));
-        errorList.addAll(requestCheckService.userNameCheck(userFull.getUserName()));
-        errorList.addAll(requestCheckService.userRoleCheck(userFull.getRoles()));
-        return errorList;
     }
 
     @Override
