@@ -1,5 +1,6 @@
 package com.example.testtask.model.service.requestservice;
 
+import com.example.testtask.webservice.jaxb.UserFull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +43,19 @@ public class RequestCheckServiceImpl implements RequestCheckService {
         if (userRole.isEmpty()) {
             errorList.add("User Role is empty; ");
         }
+        return errorList;
+    }
+
+    @Override
+    public List<String> fullCheck(UserFull userFull) {
+
+        List<String> errorList = new ArrayList<>();
+
+        errorList.addAll(userPasswordCheck(userFull.getUserPassword()));
+        errorList.addAll(userLoginCheck(userFull.getUserLogin()));
+        errorList.addAll(userNameCheck(userFull.getUserName()));
+        errorList.addAll(userRoleCheck(userFull.getRoles()));
+
         return errorList;
     }
 }
