@@ -12,6 +12,7 @@ public class PasswordCheck {
     private boolean flagLwCase;
     private boolean flagDigit;
 
+    private final String messageNull = "Password is null; ";
     private final String messageLength = "Password must contain at least three characters [ 1Ab ]; ";
     private final String messageWhitespace = "Password contains a whitespaces; ";
     private final String messageRequirements = "Password does not match requirements. Must contain at least three characters: *in uppercase, *in lowercase, *digit [ 1Ab ]; ";
@@ -26,6 +27,11 @@ public class PasswordCheck {
     public List<String> validate(String password) {
 
         List<String> errorList = new ArrayList<>();
+
+        if (password == null) {
+            errorList.add(messageNull);
+            return errorList;
+        }
 
         password = password.trim();
 
