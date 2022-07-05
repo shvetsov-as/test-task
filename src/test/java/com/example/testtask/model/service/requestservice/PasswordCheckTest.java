@@ -48,6 +48,16 @@ class PasswordCheckTest {
     }
 
     @Test
+    void shouldCheckThatPasswordNotNull() {
+
+        //when
+        List<String> expectedList = passwordCheck.validate(null);
+
+        //then
+        assertThat(expectedList.contains("Password is null; ")).isTrue();
+    }
+
+    @Test
     void shouldCheckThatPasswordNotMatchRequirementsInUppercase() {
 
         //when
